@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
@@ -9,7 +9,7 @@ import { Post } from '../lib/posts';
 import { format } from 'date-fns';
 import { calculateReadingTime, formatReadingTime } from '../lib/reading-time';
 
-export default function PostsPage() {
+function PostsContent() {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get('search') || '';
   const tagFilter = searchParams.get('tag') || '';
@@ -200,5 +200,26 @@ export default function PostsPage() {
       )}
       </div>
     </div>
+  );
+}
+
+export default function PostsPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex gap-8 w-full">
+        <div className="hidden xl:block w-48 flex-shrink-0"></div>
+        <div className="flex-1 max-w-5xl">
+          <div className="mb-12 w-full">
+            <h1 className="text-3xl font-mono font-normal mb-2">All Posts</h1>
+            <p className="text-foreground/60 text-sm font-mono">
+              Browse all technical articles and tutorials.
+            </p>
+          </div>
+          <div className="text-foreground/60 font-mono">Loading...</div>
+        </div>
+      </div>
+    }>
+      <PostsContent />
+    </Suspense>
   );
 }
