@@ -1,0 +1,89 @@
+/* Base highlight.js styles */
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0;
+  background: transparent;
+  color: var(--foreground);
+  font-family: var(--font-mono), 'Courier New', monospace;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: var(--muted-foreground);
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-subst {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.hljs-number,
+.hljs-literal,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag .hljs-attr {
+  color: var(--secondary);
+}
+
+.hljs-string,
+.hljs-doctag {
+  color: #10b981;
+}
+
+.hljs-title,
+.hljs-section,
+.hljs-selector-id {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.hljs-type,
+.hljs-class .hljs-title {
+  color: var(--primary);
+}
+
+.hljs-tag,
+.hljs-name,
+.hljs-attribute {
+  color: var(--primary);
+  font-weight: normal;
+}
+
+.hljs-regexp,
+.hljs-link {
+  color: var(--secondary);
+}
+
+.hljs-symbol,
+.hljs-bullet {
+  color: #f59e0b;
+}
+
+.hljs-built_in,
+.hljs-builtin-name {
+  color: var(--primary);
+}
+
+.hljs-meta {
+  color: var(--muted-foreground);
+}
+
+.hljs-deletion {
+  background: #fee2e2;
+}
+
+.hljs-addition {
+  background: #d1fae5;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: 600;
+}

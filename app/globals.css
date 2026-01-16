@@ -1,26 +1,350 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fafafa;
+  --foreground: #0f0f0f;
+  --border: #d4d4d4;
+  --muted: #525252;
+  --muted-foreground: #737373;
+  --accent: #e5e5e5;
+  --primary: #000000;
+  --primary-hover: #1a1a1a;
+  --secondary: #525252;
+  --accent-border: #d4d4d4;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-accent-border: var(--accent-border);
+  --font-mono: var(--font-mono);
+  --font-mono-alt: var(--font-mono-alt);
 }
 
+.dark {
+  --background: #121212;
+  --foreground: #e5e5e5;
+  --border: #1a1a1a;
+  --muted: #737373;
+  --muted-foreground: #525252;
+  --accent: #1e1e1e;
+  --primary: #e5e5e5;
+  --primary-hover: #ffffff;
+  --secondary: #737373;
+  --accent-border: #1a1a1a;
+}
+
+/* Only apply dark mode via media query if user hasn't manually set a preference */
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root:not(.light):not(.dark) {
+    --background: #121212;
+    --foreground: #e5e5e5;
+    --border: #1a1a1a;
+    --muted: #737373;
+    --muted-foreground: #525252;
+    --accent: #1e1e1e;
+    --primary: #e5e5e5;
+    --primary-hover: #ffffff;
+    --secondary: #737373;
+    --accent-border: #1a1a1a;
   }
+}
+
+* {
+  border-color: var(--border);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-mono), 'Fira Code', 'Courier New', monospace;
+  line-height: 1.8;
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: auto;
+  font-feature-settings: "liga" 1, "calt" 1;
+  letter-spacing: 0;
+  font-weight: 500;
+  text-rendering: optimizeLegibility;
+}
+
+code,
+pre {
+  font-family: var(--font-mono), 'Fira Code', 'Courier New', monospace;
+  font-feature-settings: "liga" 1, "calt" 1;
+  font-weight: 500;
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: auto;
+}
+
+/* Nerdfont styling for headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-mono), 'Fira Code', 'Courier New', monospace;
+  font-weight: 500;
+  line-height: 1.4;
+  margin-top: 1.5em;
+  margin-bottom: 0.75em;
+  color: var(--foreground);
+  font-feature-settings: "liga" 1, "calt" 1;
+  text-align: left;
+  padding: 0;
+  margin-left: 0;
+  margin-right: 0;
+  letter-spacing: 0;
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: auto;
+  text-rendering: optimizeLegibility;
+}
+
+h1 {
+  font-size: 2.25rem;
+  font-weight: 500;
+  margin-top: 0.5em;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0;
+}
+
+h2 {
+  font-size: 1.75rem;
+  font-weight: 500;
+  margin-top: 2.5em;
+  margin-bottom: 1em;
+  letter-spacing: 0;
+}
+
+h3 {
+  font-size: 1.375rem;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+/* Technical content styling */
+article {
+  max-width: 85ch;
+  margin: 0;
+  width: 100%;
+}
+
+article p {
+  margin-bottom: 1em;
+  text-align: justify;
+  text-justify: inter-word;
+  padding: 0;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* Ensure headings align with prose content */
+article h1,
+article h2,
+article h3,
+article h4,
+article h5,
+article h6 {
+  padding: 0;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* Override prose padding to align with headings */
+.prose {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.prose > * {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Ensure lists have proper padding for bullets/numbers */
+.prose ul,
+.prose ol {
+  padding-left: 1.5em !important;
+  list-style-position: outside;
+}
+
+.prose ul {
+  list-style-type: disc;
+}
+
+.prose ol {
+  list-style-type: decimal;
+}
+
+article ul,
+article ol {
+  margin-bottom: 1em;
+  padding-left: 1.5em;
+  list-style-position: outside;
+}
+
+article ul {
+  list-style-type: disc;
+}
+
+article ol {
+  list-style-type: decimal;
+}
+
+article li {
+  margin-bottom: 0.5em;
+}
+
+article li p {
+  text-align: justify;
+}
+
+article code {
+  background: var(--accent);
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+  font-weight: 500;
+  color: var(--foreground);
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: auto;
+}
+
+article pre {
+  background: var(--accent);
+  padding: 1.5rem 1.5rem 1.5rem 2.5rem;
+  border-radius: 0;
+  overflow-x: auto;
+  border: none;
+  border-left: 1px solid var(--border);
+  margin: 2em 0;
+}
+
+article pre code {
+  background: transparent;
+  padding: 0;
+  color: inherit;
+  border: none;
+}
+
+/* Syntax highlighting styles */
+article pre[class*="language-"] {
+  background: var(--accent);
+}
+
+article code[class*="language-"] {
+  background: transparent;
+  padding: 0;
+  border: none;
+}
+
+article blockquote {
+  border-left: 1px solid var(--border);
+  padding-left: 1.5rem;
+  margin: 2em 0;
+  color: var(--muted-foreground);
+  font-style: normal;
+  background: transparent;
+  padding: 0 0 0 1.5rem;
+  border-radius: 0;
+}
+
+article a {
+  color: #8c6623;
+  text-decoration: underline;
+  text-decoration-color: #8c6623;
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+  transition: all 0.2s ease;
+}
+
+article a:hover {
+  color: #a67c2a;
+  text-decoration-color: #a67c2a;
+}
+
+/* Also style links in prose content */
+.prose a {
+  color: #8c6623;
+  text-decoration: underline;
+  text-decoration-color: #8c6623;
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+  transition: all 0.2s ease;
+}
+
+.prose a:hover {
+  color: #a67c2a;
+  text-decoration-color: #a67c2a;
+}
+
+article table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5em 0;
+}
+
+article th,
+article td {
+  border: 1px solid var(--border);
+  padding: 0.5rem;
+  text-align: left;
+}
+
+article th {
+  background: var(--accent);
+  font-weight: 600;
+}
+
+article hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 3em 0;
+}
+
+/* Figure and caption styling */
+article figure,
+.prose figure {
+  margin: 2em 0;
+  padding: 0;
+}
+
+article figure img,
+.prose figure img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+}
+
+article figcaption,
+.prose figcaption {
+  margin-top: 0.75em;
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  text-align: center;
+  font-style: italic;
+  line-height: 1.5;
+  padding: 0 1rem;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--muted);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
 }
