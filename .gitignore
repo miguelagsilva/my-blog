@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# generated posts data
+/app/lib/posts-data.json
+
+.next
+.open-next

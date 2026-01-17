@@ -3,14 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "prebuild": "node scripts/strip-metadata.js",
-    "dev": "node scripts/strip-metadata.js && next dev --turbopack",
+    "prebuild": "node scripts/strip-metadata.js && node scripts/generate-posts-data.js",
+    "dev": "node scripts/strip-metadata.js && node scripts/generate-posts-data.js && next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "strip-metadata": "node scripts/strip-metadata.js"
+    "strip-metadata": "node scripts/strip-metadata.js",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {
+    "@opennextjs/cloudflare": "^1.14.9",
     "date-fns": "^3.6.0",
     "gray-matter": "^4.0.3",
     "highlight.js": "^11.11.1",
@@ -25,8 +29,7 @@
     "remark-rehype": "^11.1.2",
     "sharp": "^0.33.5",
     "unified": "^11.0.5",
-    "unist-util-visit": "^5.0.0",
-    "wrangler": "^4.35.0"
+    "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -37,6 +40,7 @@
     "eslint": "^9",
     "eslint-config-next": "^16.1.2",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.59.2"
   }
 }

@@ -1,14 +1,10 @@
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeStringify from 'rehype-stringify';
 import rehypeFigure from './rehype-figure';
-
-const postsDirectory = path.join(process.cwd(), 'content', 'posts');
+import postsData from './posts-data.json';
 
 export interface Post {
   slug: string;
@@ -22,54 +18,19 @@ export interface Post {
   coverImage?: string;
 }
 
+// Load pre-processed posts data
+const allPostsData: Post[] = postsData as Post[];
+
 export function getPostSlugs(): string[] {
-  if (!fs.existsSync(postsDirectory)) {
-    return [];
-  }
-  return fs.readdirSync(postsDirectory)
-    .filter((file) => file.endsWith('.md'))
-    .map((file) => file.replace(/\.md$/, ''));
+  return allPostsData.map(post => post.slug);
 }
 
 export function getPostBySlug(slug: string): Post | null {
-  const fullPath = path.join(postsDirectory, `${slug}.md`);
-  
-  if (!fs.existsSync(fullPath)) {
-    return null;
-  }
-
-  const fileContents = fs.readFileSync(fullPath, 'utf8');
-  const { data, content } = matter(fileContents);
-
-  // Get image from frontmatter, default to /images/posts/{slug}.svg if not specified
-  const coverImage = data.image || `/images/posts/${slug}.svg`;
-
-  return {
-    slug,
-    title: data.title || '',
-    date: data.date || '',
-    tags: Array.isArray(data.tags) ? data.tags : [],
-    excerpt: data.excerpt || '',
-    author: data.author || undefined,
-    content,
-    coverImage,
-  };
+  return allPostsData.find(post => post.slug === slug) || null;
 }
 
 export function getAllPosts(): Post[] {
-  const slugs = getPostSlugs();
-  const posts = slugs
-    .map((slug) => getPostBySlug(slug))
-    .filter((post): post is Post => post !== null)
-    .sort((a, b) => {
-      if (a.date < b.date) {
-        return 1;
-      } else {
-        return -1;
-      }
-    });
-  
-  return posts;
+  return [...allPostsData]; // Return a copy to avoid mutations
 }
 
 export function getRecentPosts(limit: number = 10): Post[] {
