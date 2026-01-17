@@ -1,5 +1,8 @@
 {
   "$schema": "https://developers.cloudflare.com/pages/config/schema",
   "name": "my-blog",
-  "compatibility_date": "2026-01-16"
+  "compatibility_date": "2026-01-16",
+  "assets": {
+    "directory": ".next"
+  }
 }
