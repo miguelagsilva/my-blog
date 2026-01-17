@@ -1,10 +1,66 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { getPostWithHtml } from '../../lib/posts';
+import type { Metadata } from 'next';
+import { getPostWithHtml, getPostBySlug } from '../../lib/posts';
 import { format } from 'date-fns';
 import { calculateReadingTime, formatReadingTime } from '../../lib/reading-time';
 import TableOfContents from '../../components/TableOfContents';
+
+export async function generateMetadata(
+  { params }: { params: Promise<{ title: string }> }
+): Promise<Metadata> {
+  const { title } = await params;
+  const post = getPostBySlug(title);
+
+  if (!post) {
+    return {
+      title: 'Post Not Found',
+    };
+  }
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://yoursite.com';
+  const postUrl = `${siteUrl}/posts/${post.slug}`;
+  const imageUrl = post.coverImage 
+    ? post.coverImage.startsWith('http') 
+      ? post.coverImage 
+      : `${siteUrl}${post.coverImage}`
+    : `${siteUrl}/computer-wizard.png`;
+
+  return {
+    title: post.title,
+    description: post.excerpt || `Read ${post.title} on Miguel's Blog`,
+    authors: post.author ? [{ name: post.author }] : undefined,
+    openGraph: {
+      type: 'article',
+      title: post.title,
+      description: post.excerpt || `Read ${post.title} on Miguel's Blog`,
+      url: postUrl,
+      siteName: "Miguel's Blog",
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+      publishedTime: post.date,
+      authors: post.author ? [post.author] : undefined,
+      tags: post.tags,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.excerpt || `Read ${post.title} on Miguel's Blog`,
+      images: [imageUrl],
+      creator: post.author || undefined,
+    },
+    alternates: {
+      canonical: postUrl,
+    },
+  };
+}
 
 export default async function Page({ params }: { params: Promise<{ title: string }> }) {
   const { title } = await params;
