@@ -54,6 +54,7 @@ All of these services where deployed through Docker Compose through the official
 
 An important part of setting up a homelab is getting the network done right. It should not be something I battle with everytime I want to get communication to outside of a VM, it should ensure be set up safely, and it should be reliable and available. My goal is to respect the CIA (Confidentiality, Integrity, Availability) Triad to have secure, reliable, and protected systems. There will be many changes to the network. This is a diagram of the current network.
 
+![Network Diagram.](/images/posts/homelab-diagram.png)
 
 ## Hardware Upgrades
 
