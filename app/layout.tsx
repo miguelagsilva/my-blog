@@ -24,6 +24,9 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Miguel's Blog",
   description: "A personal blog about tech and programming.",
+  other: {
+    "lusitai-verify": "lusitai_verify_9e0e60f01a6f78c5c0230f59c4461113",
+  },
 };
 
 export default function RootLayout({
